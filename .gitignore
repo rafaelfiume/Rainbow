@@ -1,0 +1,13 @@
+# Operating System Files
+nohup.out
+
+# Build Artifacts
+/target
+.releaseBackup
+release.properties
+
+# IntelliJ
+.idea
+*.iml
+
+
