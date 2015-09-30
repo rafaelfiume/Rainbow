@@ -43,7 +43,7 @@ import static org.springframework.test.context.TestExecutionListeners.MergeMode.
         listeners = ShutdownJettyTestExecutionListener.class,
         mergeMode = MERGE_WITH_DEFAULTS
 )
-public class TestRunnerBetterNameComingSoonTest extends TestState implements WithCustomResultListeners {
+public class EndToEndTestRestServiceIT extends TestState implements WithCustomResultListeners {
 
     public static final String RAINBOW_END_TO_END_TEST_URI = "http://localhost:8080/rainbow/test/end-to-end/";
 
@@ -80,7 +80,7 @@ public class TestRunnerBetterNameComingSoonTest extends TestState implements Wit
             this.statusPageResponse = new TestRestTemplate().getForEntity(RAINBOW_END_TO_END_TEST_URI, String.class);
 
             // this is what makes the sequence diagram magic happens
-            capturedInputAndOutputs.add("End-to-end request from client to Rainbow", RAINBOW_END_TO_END_TEST_URI);
+            capturedInputAndOutputs.add("End-to-end test request from client to Rainbow", RAINBOW_END_TO_END_TEST_URI);
 
             return capturedInputAndOutputs;
         };
@@ -89,7 +89,7 @@ public class TestRunnerBetterNameComingSoonTest extends TestState implements Wit
     private StateExtractor<HttpStatus> theStatusPage() {
         return inputAndOutputs -> {
             // this is what makes the sequence diagram magic happens
-            capturedInputAndOutputs.add("Status Page response from Supplier to client", statusPageResponse.getBody());
+            capturedInputAndOutputs.add("End-to-end test response from Rainbow to client", statusPageResponse.getBody());
 
             return this.statusPageResponse.getStatusCode();
         };
