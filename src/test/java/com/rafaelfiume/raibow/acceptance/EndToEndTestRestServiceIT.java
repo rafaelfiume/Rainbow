@@ -1,4 +1,4 @@
-package com.rafaelfiume.raibow;
+package com.rafaelfiume.raibow.acceptance;
 
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.yatspec.junit.SpecResultListener;
@@ -14,7 +14,8 @@ import com.googlecode.yatspec.rendering.html.index.HtmlIndexRenderer;
 import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import com.googlecode.yatspec.state.givenwhenthen.TestState;
-import com.rafaelfiume.raibow.test.support.ShutdownJettyTestExecutionListener;
+import com.rafaelfiume.raibow.RaibowApplication;
+import com.rafaelfiume.raibow.config.ShutdownJettyTestExecutionListener;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;

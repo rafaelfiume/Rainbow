@@ -1,4 +1,4 @@
-package com.rafaelfiume.raibow.test.support;
+package com.rafaelfiume.raibow.fixture;
 
 import com.googlecode.yatspec.junit.SpecRunner;
 import org.junit.Test;

@@ -1,15 +1,15 @@
 package com.rafaelfiume.raibow;
 
 import com.googlecode.yatspec.junit.SpecRunner;
-import com.rafaelfiume.raibow.executor.RainbowTestExecutor;
-import com.rafaelfiume.raibow.test.support.ATestThatIsGoingToRunProgrammatically;
-import com.rafaelfiume.raibow.test.support.AnotherTestThatIsGoingToRunProgrammatically;
-import com.rafaelfiume.raibow.test.support.FailingTestThatIsGoingToRunProgrammatically;
+import com.rafaelfiume.raibow.support.RainbowTestExecutor;
+import com.rafaelfiume.raibow.fixture.ATestThatIsGoingToRunProgrammatically;
+import com.rafaelfiume.raibow.fixture.AnotherTestThatIsGoingToRunProgrammatically;
+import com.rafaelfiume.raibow.fixture.FailingTestThatIsGoingToRunProgrammatically;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.rafaelfiume.raibow.executor.RainbowTestExecutor.Outcome.FAIL;
-import static com.rafaelfiume.raibow.executor.RainbowTestExecutor.Outcome.OK;
+import static com.rafaelfiume.raibow.support.RainbowTestExecutor.Outcome.FAIL;
+import static com.rafaelfiume.raibow.support.RainbowTestExecutor.Outcome.OK;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -35,6 +35,5 @@ public class RainbowTestExecutorTest {
     private RainbowTestExecutor.Outcome outcomeOfExecutorWhenRunningSomeFailingTest() {
         return executor.run(ATestThatIsGoingToRunProgrammatically.class, FailingTestThatIsGoingToRunProgrammatically.class);
     }
-
 
 }

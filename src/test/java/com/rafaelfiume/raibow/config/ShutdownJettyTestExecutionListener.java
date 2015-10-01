@@ -1,4 +1,4 @@
-package com.rafaelfiume.raibow.test.support;
+package com.rafaelfiume.raibow.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.test.context.TestContext;

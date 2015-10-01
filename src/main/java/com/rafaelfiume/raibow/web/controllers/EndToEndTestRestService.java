@@ -1,7 +1,8 @@
 package com.rafaelfiume.raibow.web.controllers;
 
-import com.rafaelfiume.raibow.endtoend.StatusPageWalkingSkeletonIT;
-import com.rafaelfiume.raibow.executor.RainbowTestExecutor;
+import com.rafaelfiume.raibow.support.EndToEndTestsFinder;
+import com.rafaelfiume.raibow.support.RainbowTestExecutor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,14 +15,18 @@ public class EndToEndTestRestService {
 
     private final RainbowTestExecutor testExecutor = new RainbowTestExecutor();
 
-    // TODO RF 30/09/15 Retrieve this indirectly (using a component) via reflection
-    private final Class<?> statusPageWalkingSkeletonITClass = StatusPageWalkingSkeletonIT.class;
+    private final EndToEndTestsFinder endToEndTestsFinder;
+
+    @Autowired
+    public EndToEndTestRestService(EndToEndTestsFinder endToEndTestsFinder) {
+        this.endToEndTestsFinder = endToEndTestsFinder;
+    }
 
     @RequestMapping(value = "/test/end-to-end", method = GET, produces = "text/plain")
     public ResponseEntity<String> handle() {
 
         return new ResponseEntity<>(
-                testExecutor.run(statusPageWalkingSkeletonITClass).name(),
+                testExecutor.run(endToEndTestsFinder.testClasses()).name(),
                 OK
         );
     }
