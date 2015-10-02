@@ -24,13 +24,14 @@ import org.springframework.http.ResponseEntity;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.matchers.Matchers.is;
+import static com.rafaelfiume.raibow.acceptance.SalumeStackHostsResolution.supplierServer;
 import static java.lang.System.lineSeparator;
 import static org.apache.commons.lang3.StringUtils.trim;
 
 @RunWith(SpecRunner.class)
 public class StatusPageWalkingSkeletonIT extends TestState implements WithCustomResultListeners {
 
-    public static final String STATUS_PAGE_URI = "http://localhost:8081/salume/supplier/status";
+    public static final String STATUS_PAGE_URI = supplierServer() + "/supplier/status";
 
     @Notes("There's no need to check every single case scenario here.\n" +
             "This a black box test meant to test how the apps that compose the system behave together.\n" +
