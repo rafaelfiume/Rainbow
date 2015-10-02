@@ -1,15 +1,15 @@
-package com.rafaelfiume.raibow;
+package com.rafaelfiume.raibow.acceptance.experimental;
 
 import com.googlecode.yatspec.junit.SpecRunner;
-import com.rafaelfiume.raibow.support.RainbowTestExecutor;
-import com.rafaelfiume.raibow.fixture.ATestThatIsGoingToRunProgrammatically;
-import com.rafaelfiume.raibow.fixture.AnotherTestThatIsGoingToRunProgrammatically;
-import com.rafaelfiume.raibow.fixture.FailingTestThatIsGoingToRunProgrammatically;
+import com.rafaelfiume.raibow.acceptance.experimental.support.RainbowTestExecutor;
+import com.rafaelfiume.raibow.acceptance.experimental.fixture.ATestThatIsGoingToRunProgrammatically;
+import com.rafaelfiume.raibow.acceptance.experimental.fixture.AnotherTestThatIsGoingToRunProgrammatically;
+import com.rafaelfiume.raibow.acceptance.experimental.fixture.FailingTestThatIsGoingToRunProgrammatically;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.rafaelfiume.raibow.support.RainbowTestExecutor.Outcome.FAIL;
-import static com.rafaelfiume.raibow.support.RainbowTestExecutor.Outcome.OK;
+import static com.rafaelfiume.raibow.acceptance.experimental.support.RainbowTestExecutor.Outcome.FAIL;
+import static com.rafaelfiume.raibow.acceptance.experimental.support.RainbowTestExecutor.Outcome.OK;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 

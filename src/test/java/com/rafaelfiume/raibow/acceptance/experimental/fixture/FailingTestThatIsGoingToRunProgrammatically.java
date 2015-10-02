@@ -1,7 +1,6 @@
-package com.rafaelfiume.raibow.fixture;
+package com.rafaelfiume.raibow.acceptance.experimental.fixture;
 
 import com.googlecode.yatspec.junit.SpecRunner;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

@@ -1,4 +1,4 @@
-package com.rafaelfiume.raibow.fixture;
+package com.rafaelfiume.raibow.acceptance.experimental.fixture;
 
 import com.googlecode.yatspec.junit.SpecRunner;
 import org.junit.Test;

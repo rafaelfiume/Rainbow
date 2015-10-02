@@ -1,4 +1,4 @@
-package com.rafaelfiume.raibow.acceptance;
+package com.rafaelfiume.raibow.acceptance.experimental;
 
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.yatspec.junit.SpecResultListener;
@@ -15,7 +15,7 @@ import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import com.googlecode.yatspec.state.givenwhenthen.TestState;
 import com.rafaelfiume.raibow.RaibowApplication;
-import com.rafaelfiume.raibow.config.ShutdownJettyTestExecutionListener;
+import com.rafaelfiume.raibow.acceptance.experimental.config.ShutdownJettyTestExecutionListener;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -37,6 +37,7 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.parseMediaType;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 
+@Ignore // Testing experimental feature. Disabled for now.
 @RunWith(SpecRunner.class)
 @SpringApplicationConfiguration(classes = RaibowApplication.class)
 @WebIntegrationTest("debug=true")

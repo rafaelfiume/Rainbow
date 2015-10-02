@@ -1,4 +1,4 @@
-package com.rafaelfiume.raibow.support;
+package com.rafaelfiume.raibow.acceptance.experimental.support;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -6,8 +6,8 @@ import org.junit.runner.notification.Failure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.rafaelfiume.raibow.support.RainbowTestExecutor.Outcome.FAIL;
-import static com.rafaelfiume.raibow.support.RainbowTestExecutor.Outcome.OK;
+import static com.rafaelfiume.raibow.acceptance.experimental.support.RainbowTestExecutor.Outcome.FAIL;
+import static com.rafaelfiume.raibow.acceptance.experimental.support.RainbowTestExecutor.Outcome.OK;
 
 public class RainbowTestExecutor {
 

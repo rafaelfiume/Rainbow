@@ -1,7 +1,7 @@
 package com.rafaelfiume.raibow.web.controllers;
 
-import com.rafaelfiume.raibow.support.EndToEndTestsFinder;
-import com.rafaelfiume.raibow.support.RainbowTestExecutor;
+import com.rafaelfiume.raibow.acceptance.experimental.support.EndToEndTestsFinder;
+import com.rafaelfiume.raibow.acceptance.experimental.support.RainbowTestExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

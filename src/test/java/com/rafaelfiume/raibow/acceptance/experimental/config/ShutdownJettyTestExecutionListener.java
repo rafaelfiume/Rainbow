@@ -1,4 +1,4 @@
-package com.rafaelfiume.raibow.config;
+package com.rafaelfiume.raibow.acceptance.experimental.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.test.context.TestContext;

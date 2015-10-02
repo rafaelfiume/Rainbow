@@ -1,4 +1,4 @@
-package com.rafaelfiume.raibow.support;
+package com.rafaelfiume.raibow.acceptance.experimental.support;
 
 import com.rafaelfiume.raibow.endtoend.StatusPageWalkingSkeletonIT;
 import org.springframework.stereotype.Component;

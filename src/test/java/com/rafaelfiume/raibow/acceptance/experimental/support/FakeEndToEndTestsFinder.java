@@ -1,6 +1,6 @@
-package com.rafaelfiume.raibow.support;
+package com.rafaelfiume.raibow.acceptance.experimental.support;
 
-import com.rafaelfiume.raibow.fixture.ATestThatIsGoingToRunProgrammatically;
+import com.rafaelfiume.raibow.acceptance.experimental.fixture.ATestThatIsGoingToRunProgrammatically;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
