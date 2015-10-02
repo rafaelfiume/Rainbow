@@ -5,6 +5,7 @@ import com.rafaelfiume.raibow.acceptance.experimental.support.RainbowTestExecuto
 import com.rafaelfiume.raibow.acceptance.experimental.fixture.ATestThatIsGoingToRunProgrammatically;
 import com.rafaelfiume.raibow.acceptance.experimental.fixture.AnotherTestThatIsGoingToRunProgrammatically;
 import com.rafaelfiume.raibow.acceptance.experimental.fixture.FailingTestThatIsGoingToRunProgrammatically;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -13,6 +14,7 @@ import static com.rafaelfiume.raibow.acceptance.experimental.support.RainbowTest
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+@Ignore // ... for now: Experimental feature
 @RunWith(SpecRunner.class)
 public class RainbowTestExecutorTest {
 

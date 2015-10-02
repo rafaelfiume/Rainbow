@@ -29,7 +29,7 @@ import static java.lang.System.lineSeparator;
 import static org.apache.commons.lang3.StringUtils.trim;
 
 @RunWith(SpecRunner.class)
-public class StatusPageWalkingSkeletonIT extends TestState implements WithCustomResultListeners {
+public class StatusPageWalkingSkeletonTest extends TestState implements WithCustomResultListeners {
 
     public static final String STATUS_PAGE_URI = supplierServer() + "/supplier/status";
 
