@@ -50,10 +50,10 @@ public class StatusPageWalkingSkeletonTest extends TestState implements WithCust
 
     private ActionUnderTest aClientRequestsSupplierStatusPage() {
         return (givens, capturedInputAndOutputs) -> {
-            this.statusPageResponse = new TestRestTemplate().getForEntity(getenv("SUPPLIER_STAGING_URL") + "/status", String.class);
+            this.statusPageResponse = new TestRestTemplate().getForEntity(STATUS_PAGE_URI, String.class);
 
             // this is what makes the sequence diagram magic happens
-            capturedInputAndOutputs.add("Status Page request from client to Supplier", getenv("SUPPLIER_STAGING_URL") + "/status");
+            capturedInputAndOutputs.add("Status Page request from client to Supplier", STATUS_PAGE_URI);
 
             return capturedInputAndOutputs;
         };
