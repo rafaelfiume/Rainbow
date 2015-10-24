@@ -73,6 +73,10 @@ public class StatusPageWalkingSkeletonTest extends TestState implements WithCust
 
     //////////////////// Test Infrastructure Stuff //////////////
 
+    private SequenceDiagramGenerator sequenceDiagramGenerator;
+
+    private ResponseEntity<String> statusPageResponse;
+
     @After
     public void generateSequenceDiagram() {
         Sequence<SequenceDiagramMessage> messages = sequence(new ByNamingConventionMessageProducer().messages(capturedInputAndOutputs));
@@ -88,10 +92,6 @@ public class StatusPageWalkingSkeletonTest extends TestState implements WithCust
                 new HtmlIndexRenderer()).
                 safeCast(SpecResultListener.class);
     }
-
-    private SequenceDiagramGenerator sequenceDiagramGenerator;
-
-    private ResponseEntity<String> statusPageResponse;
 
     @Before
     public void setUp() {
