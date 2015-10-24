@@ -1,4 +1,4 @@
-# Rainbow [![Build Status](https://travis-ci.org/rafaelfiume/Rainbow.svg?branch=master)](https://travis-ci.org/rafaelfiume/Rainbow)(https://travis-ci.org/rafaelfiume/Salume)
+# Rainbow [![Build Status](https://travis-ci.org/rafaelfiume/Rainbow.svg?branch=master)](https://travis-ci.org/rafaelfiume/Rainbow)
 
 Check the application spec [here](http://rafaelfiume.github.io/Salume/).
 
