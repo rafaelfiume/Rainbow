@@ -5,6 +5,10 @@ jdk: oraclejdk8
 before_install: chmod 755 ./update-gh-pages.sh
 after_success: ./update-gh-pages.sh
 
+# The following global varables are encrypted:
 env:
   global:
+  # GH_TOKEN
   - secure: O7Jxn5LE0KfhrkNwVyExuKrbs9ypv2PjsTUP2r52kml0x3iZqPYYbu4Y4XExemkXW/NyHxEQ771SW/oCNb97sfvaFUkPW3jDfvV5lontivomMlZHlLknUen2zY3205VceSqKJXx4yelxg7jJ6R4eE2pa91JsCKJ0iaYHhhn7hdltmcHP6pdV7IQix1qQF4/ij1GLv7w9QghWlwXDnv48TDinWV2C3myFHGMo3rkQLj8T14YerbBr30UcXEPv636W7DjqX0KyZ88y6BcRfrYcx/qm0U/5CuNoNPhiSrpDlbcuT89eSDxe7rrwcwjbAtE17geEkaxnUzjbPFXxT1hFlm+TT90gbHVTXx+8R2ln64Zu4+2+ZJVWURRcr0Ol3O3CsR0LZWUmewHJsyISdU/2/nmLhL8+V+V0/VyogsajqV3uVeHtqY2c2Jc7oFGbTsWrr2UPmXd4uJpsXmobZcIUqT4f6mpCLMUlEu9GLJxZ/tCJn0GC5m5Ef43YL1QDIbl86ZqeuXl1G9dmHCMOm4sThlUQYOG0V+56AAaW2joXmIUKIUD3vcyhYuuqvczmtfX5BGrFYGNpL7E5hvfQEsGE8CqBOcvuE3gA97KJi6NGzg8CO9oDe6afI7s2GWlCcVrBuD5BS34JnUAW5VBTuqLGRoNJJLRT0ZQ4Hf7tRmRE9yQ=
+
+# TODO Set SUPPLIER_URL here. It' currently set in the repository. See https://travis-ci.org/rafaelfiume/Rainbow/settings

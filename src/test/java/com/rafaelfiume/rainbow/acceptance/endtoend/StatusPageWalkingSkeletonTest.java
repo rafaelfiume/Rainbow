@@ -1,4 +1,4 @@
-package com.rafaelfiume.raibow.acceptance.endtoend;
+package com.rafaelfiume.rainbow.acceptance.endtoend;
 
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.yatspec.junit.Notes;
@@ -24,17 +24,18 @@ import org.springframework.http.ResponseEntity;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.matchers.Matchers.is;
-import static com.rafaelfiume.raibow.acceptance.SalumeStackHostsResolution.supplierServer;
+import static com.rafaelfiume.rainbow.acceptance.SalumeStackHostsResolution.supplierBaseUrl;
+import static java.lang.System.getenv;
 import static java.lang.System.lineSeparator;
 import static org.apache.commons.lang3.StringUtils.trim;
 
 @RunWith(SpecRunner.class)
 public class StatusPageWalkingSkeletonTest extends TestState implements WithCustomResultListeners {
 
-    public static final String STATUS_PAGE_URI = supplierServer() + "/supplier/status";
+    public static final String STATUS_PAGE_URI = supplierBaseUrl() + "/status";
 
     @Notes("There's no need to check every single case scenario here.\n" +
-            "This a black box test meant to test how the apps that compose the system behave together.\n" +
+            "This is a black box test meant to test how the apps that compose the system behave together.\n" +
             "We leave the more specific assertions to the acceptance tests in each app.\n" +
             "" +
             "Also note that there's no sad path.\n")
@@ -49,10 +50,10 @@ public class StatusPageWalkingSkeletonTest extends TestState implements WithCust
 
     private ActionUnderTest aClientRequestsSupplierStatusPage() {
         return (givens, capturedInputAndOutputs) -> {
-            this.statusPageResponse = new TestRestTemplate().getForEntity(STATUS_PAGE_URI, String.class);
+            this.statusPageResponse = new TestRestTemplate().getForEntity(getenv("SUPPLIER_STAGING_URL") + "/status", String.class);
 
             // this is what makes the sequence diagram magic happens
-            capturedInputAndOutputs.add("Status Page request from client to Supplier", STATUS_PAGE_URI);
+            capturedInputAndOutputs.add("Status Page request from client to Supplier", getenv("SUPPLIER_STAGING_URL") + "/status");
 
             return capturedInputAndOutputs;
         };
