@@ -38,7 +38,7 @@ public class StatusPageWalkingSkeletonTest extends TestState implements WithCust
             "" +
             "Also note that there's no sad path.\n")
     @Test
-    public void happyPath() throws Exception {
+    public void showStatusOkWhenAppIsUpAndRunningAndAllTheResourcesItDependsOnAreAvailable() throws Exception {
         // given Salume stack is up and running
 
         when(aClientRequestsSupplierStatusPage());

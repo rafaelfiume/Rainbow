@@ -52,8 +52,8 @@ import static org.hamcrest.Matchers.hasXPath;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
 
-@Notes("This is only to check all the apps in the stack work well together. " +
-        "For a more comprehensive acceptance test, see ProductAdviserEndToEndTest in Supplier.")
+@Notes("This is only to check all the apps in the stack work well together.\n" +
+        "For a more comprehensive acceptance test, see [ProductAdviserEndToEndTest](http://rafaelfiume.github.io/Salume/com/rafaelfiume/salume/acceptance/advisor/SalumeAdvisorHappyPathEndToEndTest.html) in Supplier.")
 @ContextConfiguration(classes = DbApplication.class)
 @Transactional
 @RunWith(SpecRunner.class)
@@ -89,7 +89,7 @@ public class ProductAdviserEndToEndTest extends TestState implements WithCustomR
     }
 
     @Test
-    public void onlySuggestTraditionalProductsToExperts() throws Exception {
+    public void onlySuggestTraditionalProductsWithCheapestOnesFirstToExperts() throws Exception {
         given(theAvailableProductsAre(
                 a("(Normal) Cheap Salume")                   .at("EUR 11,11").regardedAs("NORMAL")     .with("49,99").percentageOfFat(),
                 a("(Normal) Light Salume")                   .at("EUR 29,55").regardedAs("NORMAL")     .with("31,00").percentageOfFat(),
