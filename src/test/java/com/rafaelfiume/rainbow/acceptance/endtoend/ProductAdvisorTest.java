@@ -16,18 +16,28 @@ import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import com.googlecode.yatspec.state.givenwhenthen.TestState;
+import com.rafaelfiume.rainbow.support.SpringCommitsAndClosesTestTransactionTransactor;
+import com.rafaelfiume.salume.db.DbApplication;
+import com.rafaelfiume.salume.db.advisor.PersistentProductBase;
+import com.rafaelfiume.salume.domain.MoneyDealer;
+import com.rafaelfiume.salume.domain.ProductBuilder;
 import org.hamcrest.Matcher;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.rules.SpringClassRule;
+import org.springframework.test.context.junit4.rules.SpringMethodRule;
+import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import javax.sql.DataSource;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -42,28 +52,82 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
+import static com.rafaelfiume.salume.domain.ProductBuilder.a;
 import static com.rafaelfiume.rainbow.acceptance.SalumeStackHostsResolution.supplierBaseUrl;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.NUMBER;
 import static org.hamcrest.Matchers.hasXPath;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
 
 @Notes("This is only to check all the apps are working well together. " +
         "For a more comprehensive acceptance test, see ProductAdvisorTest in Supplier.")
+@ContextConfiguration(classes = DbApplication.class)
+@Transactional
 @RunWith(SpecRunner.class)
 public class ProductAdvisorTest extends TestState implements WithCustomResultListeners {
 
+    @ClassRule
+    public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
+
+    @Rule
+    public final SpringMethodRule springMethodRule = new SpringMethodRule();
+
     private ResponseEntity<String> response;
+
+    private MoneyDealer moneyDealer;
+
+    private final SpringCommitsAndClosesTestTransactionTransactor transactor = new SpringCommitsAndClosesTestTransactionTransactor();
+    private JdbcTemplate jdbcTemplate;
+    private PersistentProductBase productBase;
+    @Autowired
+    public void setMoneyDealer(MoneyDealer moneyDealer) {
+        this.moneyDealer = moneyDealer;
+    }
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    @Autowired
+    public void setProductBase(PersistentProductBase productBase) {
+        this.productBase = productBase;
+    }
 
     @Test
     public void onlySuggestTraditionalProductsToExperts() throws Exception {
-        given(availableProductsAre(cheap(), light(), traditional(), andPremium()));
+        given(theAvailableProductsAre(
+                a("(Normal) Cheap Salume")                   .at("EUR 11,11").regardedAs("NORMAL")     .with("49,99").percentageOfFat(),
+                a("(Normal) Light Salume")                   .at("EUR 29,55").regardedAs("NORMAL")     .with("31,00").percentageOfFat(),
+                a("(Normal) Salume")                         .at("EUR 57,37").regardedAs("NORMAL")     .with("33,50").percentageOfFat(),
+                a("(Traditional Less Expensive) Salume")     .at("EUR 41,60").regardedAs("TRADITIONAL").with("37,00").percentageOfFat(),
+                and(a("(Traditional More Expensive) Premium").at("EUR 73,23").regardedAs("TRADITIONAL").with("38,00").percentageOfFat())));
 
         when(requestingBestOfferFor(aCustomerConsidered("Expert")));
 
-        then(numberOfAdvisedProducts(), is(2)); // because there are only two products considered traditional in the db
+        then(adviseCustomerTo(), buy("(Traditional Less Expensive) Salume", salume()));
+        then(numberOfAdvisedProducts(), is(2));
 
-        then(adviseCustomerTo(), buy("Traditional Salume", salume()));
+        // Coming soo....................................n
+        //then(theFirstSuggestionForCustomer(), isThe("(Traditional Less Expensive) Salume") .at("EUR 41,60").regardedAs("TRADITIONAL").with("37,00").percentageOfFat());
+        //and(secondSuggestedProduct(),         isThe("(Traditional More Expensive) Premium").at("EUR 73,23").regardedAs("TRADITIONAL").with("38,00").percentageOfFat());
+        //and(numberOfAdvisedProducts(), is(2));
+        //and(theContentType(), is(APPLICATION_XML_CHARSET_UTF8));
+    }
+
+    private GivensBuilder theAvailableProductsAre(ProductBuilder... products) {
+        return givens -> {
+            transactor.perform(() -> {
+                deleteFromTables(jdbcTemplate, "salumistore.products");
+
+                for (ProductBuilder p : products) {
+                    productBase.add(p.build(moneyDealer));
+                }
+            });
+
+            return givens;
+        };
     }
 
     private ActionUnderTest requestingBestOfferFor(final String profile) {
@@ -101,6 +165,14 @@ public class ProductAdvisorTest extends TestState implements WithCustomResultLis
     }
 
     //
+    // Decorator methods to make the test read well
+    //
+
+    private ProductBuilder and(ProductBuilder p) {
+        return p;
+    }
+
+    //
     // Matchers
     //
 
@@ -134,21 +206,6 @@ public class ProductAdvisorTest extends TestState implements WithCustomResultLis
         };
     }
 
-    private Object cheap() {
-        return null;
-    }
-
-    private Object light() {
-        return null;
-    }
-
-    private Object traditional() {
-        return null;
-    }
-
-    private Object andPremium() {
-        return null;
-    }
 
     //
     // Xml related

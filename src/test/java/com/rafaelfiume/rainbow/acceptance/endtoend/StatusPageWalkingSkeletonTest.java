@@ -25,8 +25,6 @@ import org.springframework.http.ResponseEntity;
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.matchers.Matchers.is;
 import static com.rafaelfiume.rainbow.acceptance.SalumeStackHostsResolution.supplierBaseUrl;
-import static java.lang.System.getenv;
-import static java.lang.System.lineSeparator;
 import static org.apache.commons.lang3.StringUtils.trim;
 
 @RunWith(SpecRunner.class)
@@ -66,7 +64,7 @@ public class StatusPageWalkingSkeletonTest extends TestState implements WithCust
 
             capturedInputAndOutputs.add("Status Page response from Supplier to client", body);
 
-            String firstLine = body.split(lineSeparator())[0];
+            String firstLine = body.split("\n")[0];
             return trim(firstLine.split("is:")[1]);
         };
     }

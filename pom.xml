@@ -11,6 +11,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <salume.version>0.1.8</salume.version>
+
         <java.version>1.8</java.version>
         <jetty.version>9.3.3.v20150827</jetty.version>
         <spring.boot.version>1.2.6.RELEASE</spring.boot.version>
@@ -21,6 +23,17 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.rafaelfiume</groupId>
+            <artifactId>Test-Support</artifactId>
+            <version>${salume.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rafaelfiume</groupId>
+            <artifactId>Salume-Db</artifactId>
+            <version>${salume.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
@@ -226,6 +239,10 @@
         <repository>
             <id>repo.bodar.com</id>
             <url>http://repo.bodar.com</url>
+        </repository>
+        <repository>
+            <id>rafaelfiume</id>
+            <url>https://raw.github.com/rafaelfiume/Salume/mvn-repo</url>
         </repository>
     </repositories>
 

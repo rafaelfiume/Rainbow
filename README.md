@@ -1,6 +1,6 @@
 # Rainbow [![Build Status](https://travis-ci.org/rafaelfiume/Rainbow.svg?branch=master)](https://travis-ci.org/rafaelfiume/Rainbow)
 
-End-to-end tests [here](http://rafaelfiume.github.io/Rainbow/).
+Executes black-box end-to-end tests in the Supplier stack in the staging environment. The results are available [here](http://rafaelfiume.github.io/Rainbow/).
 
 ## Running the application locally
 
