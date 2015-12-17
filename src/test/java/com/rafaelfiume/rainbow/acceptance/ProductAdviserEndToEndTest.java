@@ -1,4 +1,4 @@
-package com.rafaelfiume.rainbow.acceptance.endtoend;
+package com.rafaelfiume.rainbow.acceptance;
 
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.yatspec.junit.Notes;
@@ -42,7 +42,7 @@ import org.w3c.dom.NodeList;
 import javax.sql.DataSource;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
-import static com.rafaelfiume.rainbow.acceptance.SalumeStackHostsResolution.supplierBaseUrl;
+import static com.rafaelfiume.rainbow.support.SalumeStackHostsResolution.supplierBaseUrl;
 import static com.rafaelfiume.salume.domain.ProductBuilder.a;
 import static com.rafaelfiume.salume.support.Xml.*;
 import static java.lang.String.format;
@@ -52,12 +52,12 @@ import static org.hamcrest.Matchers.hasXPath;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
 
-@Notes("This is only to check all the apps are working well together. " +
-        "For a more comprehensive acceptance test, see ProductAdvisorTest in Supplier.")
+@Notes("This is only to check all the apps in the stack work well together. " +
+        "For a more comprehensive acceptance test, see ProductAdviserEndToEndTest in Supplier.")
 @ContextConfiguration(classes = DbApplication.class)
 @Transactional
 @RunWith(SpecRunner.class)
-public class ProductAdvisorTest extends TestState implements WithCustomResultListeners {
+public class ProductAdviserEndToEndTest extends TestState implements WithCustomResultListeners {
 
     @ClassRule
     public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
@@ -121,16 +121,16 @@ public class ProductAdvisorTest extends TestState implements WithCustomResultLis
         return (givens, capturedInputAndOutputs1) -> {
             // TODO RF 20/10/2015 Extract the server address to a method in the abstract class
 
-            this.response = new TestRestTemplate().getForEntity(advisorUrl(profile), String.class);
+            this.response = new TestRestTemplate().getForEntity(adviserUrl(profile), String.class);
 
             // TODO RF 20/10/2015 Extract it to a method in the abstract class
-            capturedInputAndOutputs.add("Salume advice request from customer to Supplier", advisorUrl(profile));
+            capturedInputAndOutputs.add("Salume advice request from customer to Supplier", adviserUrl(profile));
 
             return capturedInputAndOutputs;
         };
     }
 
-    private String advisorUrl(String profile) {
+    private String adviserUrl(String profile) {
         return supplierBaseUrl() + "/advise/for/" + profile;
     }
 

@@ -1,4 +1,4 @@
-package com.rafaelfiume.rainbow.acceptance.endtoend;
+package com.rafaelfiume.rainbow.acceptance;
 
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.yatspec.junit.Notes;
@@ -24,7 +24,7 @@ import org.springframework.http.ResponseEntity;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.googlecode.totallylazy.matchers.Matchers.is;
-import static com.rafaelfiume.rainbow.acceptance.SalumeStackHostsResolution.supplierBaseUrl;
+import static com.rafaelfiume.rainbow.support.SalumeStackHostsResolution.supplierBaseUrl;
 import static org.apache.commons.lang3.StringUtils.trim;
 
 @RunWith(SpecRunner.class)

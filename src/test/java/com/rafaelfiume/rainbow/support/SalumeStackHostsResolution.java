@@ -1,4 +1,4 @@
-package com.rafaelfiume.rainbow.acceptance;
+package com.rafaelfiume.rainbow.support;
 
 import static java.lang.System.getenv;
 
