@@ -2,6 +2,8 @@
 
 Executes black-box end-to-end tests in the Supplier stack in the staging environment. The results are available [here](http://rafaelfiume.github.io/Rainbow/).
 
+The Supplier stack must be running in order to run Rainbow tests.
+
 ## Running the application locally
 
 Build with:
