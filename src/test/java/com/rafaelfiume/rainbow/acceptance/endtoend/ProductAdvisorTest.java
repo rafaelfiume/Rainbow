@@ -20,7 +20,11 @@ import com.rafaelfiume.rainbow.support.SpringCommitsAndClosesTestTransactionTran
 import com.rafaelfiume.salume.db.DbApplication;
 import com.rafaelfiume.salume.db.advisor.PersistentProductBase;
 import com.rafaelfiume.salume.domain.MoneyDealer;
+import com.rafaelfiume.salume.domain.Product;
 import com.rafaelfiume.salume.domain.ProductBuilder;
+import com.rafaelfiume.salume.domain.Reputation;
+import com.rafaelfiume.salume.matchers.AbstractAdvisedProductMatcherBuilder;
+import com.rafaelfiume.salume.matchers.AdvisedProductMatcher;
 import org.hamcrest.Matcher;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -32,28 +36,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.transaction.annotation.Transactional;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import javax.sql.DataSource;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
-import static com.rafaelfiume.salume.domain.ProductBuilder.a;
 import static com.rafaelfiume.rainbow.acceptance.SalumeStackHostsResolution.supplierBaseUrl;
+import static com.rafaelfiume.salume.domain.ProductBuilder.a;
+import static com.rafaelfiume.salume.support.Xml.*;
+import static java.lang.String.format;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.NUMBER;
 import static org.hamcrest.Matchers.hasXPath;
@@ -80,6 +72,7 @@ public class ProductAdvisorTest extends TestState implements WithCustomResultLis
     private final SpringCommitsAndClosesTestTransactionTransactor transactor = new SpringCommitsAndClosesTestTransactionTransactor();
     private JdbcTemplate jdbcTemplate;
     private PersistentProductBase productBase;
+
     @Autowired
     public void setMoneyDealer(MoneyDealer moneyDealer) {
         this.moneyDealer = moneyDealer;
@@ -106,14 +99,8 @@ public class ProductAdvisorTest extends TestState implements WithCustomResultLis
 
         when(requestingBestOfferFor(aCustomerConsidered("Expert")));
 
-        then(adviseCustomerTo(), buy("(Traditional Less Expensive) Salume", salume()));
-        then(numberOfAdvisedProducts(), is(2));
-
-        // Coming soo....................................n
-        //then(theFirstSuggestionForCustomer(), isThe("(Traditional Less Expensive) Salume") .at("EUR 41,60").regardedAs("TRADITIONAL").with("37,00").percentageOfFat());
-        //and(secondSuggestedProduct(),         isThe("(Traditional More Expensive) Premium").at("EUR 73,23").regardedAs("TRADITIONAL").with("38,00").percentageOfFat());
-        //and(numberOfAdvisedProducts(), is(2));
-        //and(theContentType(), is(APPLICATION_XML_CHARSET_UTF8));
+        then(theFirstSuggestionForCustomer(), isThe("(Traditional Less Expensive) Salume") .at("EUR 41,60").regardedAs("TRADITIONAL").with("37,00").percentageOfFat());
+        and(numberOfAdvisedProducts(), is(2));
     }
 
     private GivensBuilder theAvailableProductsAre(ProductBuilder... products) {
@@ -153,7 +140,7 @@ public class ProductAdvisorTest extends TestState implements WithCustomResultLis
         ).intValue();
     }
 
-    private StateExtractor<Node> adviseCustomerTo() throws Exception {
+    private StateExtractor<Node> theFirstSuggestionForCustomer() throws Exception {
         // TODO RF 20/10/2015 Extract it to a method in the abstract class
         capturedInputAndOutputs.add("Salume advice response from Supplier to customer", prettyPrint(xmlFrom(response.getBody())));
 
@@ -168,6 +155,10 @@ public class ProductAdvisorTest extends TestState implements WithCustomResultLis
     // Decorator methods to make the test read well
     //
 
+    protected <ItemOfInterest> TestState and(StateExtractor<ItemOfInterest> extractor, Matcher<? super ItemOfInterest> matcher) throws Exception {
+        return then(extractor, matcher);
+    }
+
     private ProductBuilder and(ProductBuilder p) {
         return p;
     }
@@ -180,6 +171,49 @@ public class ProductAdvisorTest extends TestState implements WithCustomResultLis
         return hasXPath("//product/name[text() = \"" + expected + "\"]");
     }
 
+    private AdvisedProductMatcherBuilder isThe(String productName) {
+        return AdvisedProductMatcherBuilder.isThe(moneyDealer, productName);
+    }
+
+    // TODO RF 17/12/2015 Duplicated from Salume-Acceptance-Test (import Salume-Supplier module???)
+    static class AdvisedProductMatcherBuilder extends AbstractAdvisedProductMatcherBuilder<Node> {
+
+        static AdvisedProductMatcherBuilder isThe(MoneyDealer moneyDealer, String expectedProduct) {
+            return new AdvisedProductMatcherBuilder(moneyDealer, expectedProduct);
+        }
+
+        private AdvisedProductMatcherBuilder(MoneyDealer moneyDealer, String expectedProductName) {
+            super(moneyDealer, expectedProductName);
+        }
+
+        @Override
+        public AdvisedProductMatcher percentageOfFat() {
+            final Product product = expectedProduct();
+            return new AdvisedProductMatcher(
+                    product.getName(),
+                    moneyDealer().format(product.getPrice()),
+                    ReputationRepresentation.of(product.getReputation()),
+                    product.getFatPercentage());
+        }
+    }
+
+    // TODO RF 17/12/2015 Duplicated from Salume-Supplier (import Salume-Supplier module //Move to Salume-Domain???)
+    static class ReputationRepresentation {
+
+        private ReputationRepresentation() {
+            // Not intended to be instantiate
+        }
+
+        public static String of(Reputation reputation) {
+            switch (reputation) {
+                case NORMAL:      return "special";
+                case TRADITIONAL: return "traditional";
+            }
+
+            throw new IllegalArgumentException(format("unknown reputation %s", reputation));
+        }
+    }
+
     //
     // Decorator methods to make the test read well
     //
@@ -190,53 +224,6 @@ public class ProductAdvisorTest extends TestState implements WithCustomResultLis
 
     private String salume() {
         return "";
-    }
-
-    // TODO RF 24/10/2015 Data being retrieved from staging db, which means it depends on some specific values to run
-    // This is quite fragile, but I'll can live with that for a while.
-    private GivensBuilder availableProductsAre(Object... products) {
-        return givens -> {
-            // Data added using sql scripts. See: 01.create-table.sql
-
-            // Consider doing something like the following in the future...
-            // DatabaseUtilities.cleanAll();
-            // DatabaseUtilities.addProducts(products);
-
-            return givens;
-        };
-    }
-
-
-    //
-    // Xml related
-    //
-
-    private static Document xmlFrom(String xml) throws Exception {
-        Document xmlDoc = DocumentBuilderFactory
-                .newInstance()
-                .newDocumentBuilder()
-                .parse(new InputSource(new StringReader(xml)));
-
-        final Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-        transformer.transform(new DOMSource(xmlDoc), new DOMResult());
-        return xmlDoc;
-    }
-
-    private static String prettyPrint(Node xml) throws Exception {
-        final Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-        final Writer out = new StringWriter();
-        transformer.transform(new DOMSource(xml), new StreamResult(out));
-        return out.toString();
-    }
-
-    private XPath xpath() {
-        return XPathFactory.newInstance().newXPath();
     }
 
     //////////////////// Test Infrastructure Stuff //////////////
