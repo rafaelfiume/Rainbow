@@ -5,7 +5,7 @@ import static java.lang.System.getenv;
 public class SalumeStackHostsResolution {
 
     public static String supplierBaseUrl() {
-        return getenv("SUPPLIER_STAGING_URL");
+        return getenv("SUPPLIER_URL");
     }
 
 }

@@ -14,5 +14,5 @@ Build with:
 
 The following variables are used in this project:
 
-#### Test
-1) $SUPPLIER_STAGING_URL is mandatory and points to Supplier in staging.
+* $SUPPLIER_URL points to Supplier in local or staging.
+* $DATABASE_URL points to the database in local or staging.

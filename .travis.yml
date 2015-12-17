@@ -5,7 +5,7 @@ jdk: oraclejdk8
 before_install: chmod 755 ./update-gh-pages.sh
 after_success: ./update-gh-pages.sh
 
-# The following global varables are encrypted:
+# The following global variables are encrypted:
 env:
   global:
   # GH_TOKEN
