@@ -53,7 +53,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
 
 @Notes("This is only to check all the apps in the stack work well together.\n" +
-        "For a more comprehensive acceptance test, see [ProductAdviserEndToEndTest](http://rafaelfiume.github.io/Salume/com/rafaelfiume/salume/acceptance/advisor/SalumeAdvisorHappyPathEndToEndTest.html) in Supplier.")
+        "For a more comprehensive acceptance test, see <a href=\"http://rafaelfiume.github.io/Salume/com/rafaelfiume/salume/acceptance/advisor/SalumeAdvisorHappyPathEndToEndTest.html\">ProductAdviserEndToEndTest</a> in Supplier.")
 @ContextConfiguration(classes = DbApplication.class)
 @Transactional
 @RunWith(SpecRunner.class)
