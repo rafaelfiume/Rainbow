@@ -86,7 +86,7 @@ public class StatusPageWalkingSkeletonTest extends TestState implements WithCust
         return sequence(
                 new HtmlResultRenderer().
                         withCustomHeaderContent(SequenceDiagramGenerator.getHeaderContentForModalWindows()).
-                        withCustomRenderer(SvgWrapper.class, new DontHighlightRenderer()),
+                        withCustomRenderer(SvgWrapper.class, new DontHighlightRenderer<>()),
                 new HtmlIndexRenderer()).
                 safeCast(SpecResultListener.class);
     }

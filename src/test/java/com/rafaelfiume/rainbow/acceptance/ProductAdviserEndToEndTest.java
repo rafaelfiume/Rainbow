@@ -18,7 +18,7 @@ import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import com.googlecode.yatspec.state.givenwhenthen.TestState;
 import com.rafaelfiume.rainbow.support.SpringCommitsAndClosesTestTransactionTransactor;
 import com.rafaelfiume.salume.db.DbApplication;
-import com.rafaelfiume.salume.db.advisor.PersistentProductBase;
+import com.rafaelfiume.salume.db.PersistentProductBase;
 import com.rafaelfiume.salume.domain.MoneyDealer;
 import com.rafaelfiume.salume.domain.Product;
 import com.rafaelfiume.salume.domain.ProductBuilder;
@@ -48,7 +48,6 @@ import static com.rafaelfiume.salume.support.Xml.*;
 import static java.lang.String.format;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.NUMBER;
-import static org.hamcrest.Matchers.hasXPath;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
 
@@ -167,10 +166,6 @@ public class ProductAdviserEndToEndTest extends TestState implements WithCustomR
     // Matchers
     //
 
-    private Matcher<Node> buy(String expected, @SuppressWarnings("unused") String salume) {
-        return hasXPath("//product/name[text() = \"" + expected + "\"]");
-    }
-
     private AdvisedProductMatcherBuilder isThe(String productName) {
         return AdvisedProductMatcherBuilder.isThe(moneyDealer, productName);
     }
@@ -222,10 +217,6 @@ public class ProductAdviserEndToEndTest extends TestState implements WithCustomR
         return profile;
     }
 
-    private String salume() {
-        return "";
-    }
-
     //////////////////// Test Infrastructure Stuff //////////////
 
     private SequenceDiagramGenerator sequenceDiagramGenerator;
@@ -241,7 +232,7 @@ public class ProductAdviserEndToEndTest extends TestState implements WithCustomR
         return sequence(
                 new HtmlResultRenderer().
                         withCustomHeaderContent(SequenceDiagramGenerator.getHeaderContentForModalWindows()).
-                        withCustomRenderer(SvgWrapper.class, new DontHighlightRenderer()),
+                        withCustomRenderer(SvgWrapper.class, new DontHighlightRenderer<>()),
                 new HtmlIndexRenderer()).
                 safeCast(SpecResultListener.class);
     }
