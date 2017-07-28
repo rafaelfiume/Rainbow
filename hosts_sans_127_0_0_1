@@ -1,6 +1,6 @@
-172.17.5.47	testing-worker-linux-docker-7d6cc86b-3430-linux-3.prod.travis-ci.org testing-worker-linux-docker-7d6cc86b-3430-linux-3
+::1	localhost ip6-localhost ip6-loopback
 fe00::0	ip6-localnet
 ff00::0	ip6-mcastprefix
 ff02::1	ip6-allnodes
 ff02::2	ip6-allrouters
-::1	localhost ip6-localhost ip6-loopback
+172.17.0.9	testing-docker-6736604b-f1bb-4b64-9fcc-d746ba827685
